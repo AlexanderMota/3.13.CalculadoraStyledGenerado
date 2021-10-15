@@ -1,17 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
+﻿using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 
 namespace CalculadoraStyledGenerado
 {
@@ -23,35 +11,40 @@ namespace CalculadoraStyledGenerado
         public MainWindow()
         {
             InitializeComponent();
-            for(int i = 0; i < 9; i++)
+            TextBlock tb;
+            Viewbox vb;
+            Button btt;
+            for (int i = 0; i < 9; i++)
             {
-                this.contenedor.Children.Add(new Button
+                tb = new TextBlock()
+                {
+                    Style = (Style)this.Resources["StyleTB"],
+                    Text = "" + (i + 1)
+                };
+                vb = new Viewbox();
+                vb.Child = tb;
+                btt = new Button()
                 {
                     Style = (Style)this.Resources["StyleButt"],
-                    Tag = new Viewbox
-                    {
-                        Tag = new TextBlock
-                        {
-                            Style = (Style)this.Resources["StyleTB"],
-                            Text = "" + (i + 1)
-                        }
-                    }
-                });
+                    Content = vb
+                };
+                this.contenedor.Children.Add(btt);
             }
-            this.General.Children.Add(new Button
+            tb = new TextBlock()
+            {
+                Style = (Style)this.Resources["StyleTB"],
+                Text = "0"
+            };
+            vb = new Viewbox();
+            vb.Child = tb;
+            btt = new Button()
             {
                 Style = (Style)this.Resources["StyleButtCero"],
-                Tag = new Viewbox
-                {
-                    Tag = new TextBlock
-                    {
-                        Style = (Style)this.Resources["StyleTB"],
-                        Text = "0"
-                    }
-                }
-            });
+                Content = vb
+            };
+            this.General.Children.Add(btt);
         }
         private void Button_Click(object sender, RoutedEventArgs e)
-            => VistaTexto.Text += ((TextBlock)((Viewbox)(sender as Button).Tag).Tag).Text;
+            => VistaTexto.Text += ((TextBlock)(((Viewbox)(((Button)sender).Content)).Child)).Text;
     }
 }
